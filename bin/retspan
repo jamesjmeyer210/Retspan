@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# retspan - a script for the specific purpose of downloading vorbis audio
+
+this="[retspan]:"
+artist=$1
+album=$2
+url=$3
+
+echo_illegal(){
+    echo "$this Illegal parameters. Try h or help."
+}
+
+echo_help(){
+	echo "Commands:"
+	echo " "
+	echo "h, help"
+	echo "u, update"
+	echo "t, tag"
+	echo " "
+	echo "Standard operations:"
+	echo " "
+	echo "retspan <Artist> <Album> <URL>"
+	echo "retspan t(tag) <Artist> <Album>"
+}
+
+update_this(){
+	sudo pip install --upgrade youtube-dl
+}
+
+download(){
+	arg0="%(playlist_index)s-%(title)s.%(ext)s"
+	arg1="--extract-audio --audio-format"
+
+	youtube-dl -o $arg0 -i $arg1 vorbis $url		
+}
+
+tag(){
+	dir=$(pwd)
+    count=1
+
+    for filename in $dir/*.ogg ; do
+        echo "$this Artist = $artist"
+        echo "$this Album = $album"
+        echo "$this Track Number = $count"
+        lltag -a "$artist" -A "$album" -n $count "$filename" --yes
+        # lltag -n $count $filename --yes
+        count=$((count + 1))
+    done
+
+}
+
+# begin main
+
+if [ $# -eq 1 ] ;
+	then
+	if [ $1 = 'h' ] || [ $1 = 'help' ] ; then
+		echo_help
+	elif [ $1 = 'u' ] || [ $1 = 'update' ] ; then
+		update_this
+	else
+	    echo_illegal	
+	fi	
+elif [ $# -eq 3 ] ; then
+    if [ $1 = 't' ] || [ $1 = 'tag' ] ; then
+        artist="$2"
+        album="$3"
+        tag
+    else
+	    download
+	    tag
+	fi
+else
+	echo_illegal
+fi
+

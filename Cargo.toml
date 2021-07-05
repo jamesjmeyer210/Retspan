@@ -1,0 +1,6 @@
+[package]
+name = "Retspan"
+version = "0.1.0"
+authors = ["jamesmeyer1993 <jamesmeyer1993@outlook.com>"]
+
+[dependencies]
