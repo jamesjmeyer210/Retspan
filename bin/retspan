@@ -28,11 +28,10 @@ update_this(){
 	sudo pip install --upgrade youtube-dl
 }
 
-download(){
-	arg0="%(playlist_index)s-%(title)s.%(ext)s"
-	arg1="--extract-audio --audio-format"
-
-	youtube-dl -o $arg0 -i $arg1 vorbis $url		
+download_vorbis(){
+	youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" \
+	-i "--extract-audio --audio-format" \
+	vorbis "$1"
 }
 
 tag(){
@@ -67,7 +66,7 @@ elif [ $# -eq 3 ] ; then
         album="$3"
         tag
     else
-	    download
+	    download_vorbis "$url"
 	    tag
 	fi
 else
