@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # retspan - a script for the specific purpose of downloading vorbis audio
 
@@ -28,45 +28,38 @@ update_this(){
 	sudo pip install --upgrade youtube-dl
 }
 
-download_vorbis(){
-	youtube-dl -o "%(playlist_index)s-%(title)s.%(ext)s" \
-	-i "--extract-audio --audio-format" \
-	vorbis "$1"
-}
-
 tag(){
 	dir=$(pwd)
-    count=1
+  count=1
 
-    for filename in $dir/*.ogg ; do
-        echo "$this Artist = $artist"
-        echo "$this Album = $album"
-        echo "$this Track Number = $count"
-        lltag -a "$artist" -A "$album" -n $count "$filename" --yes
-        # lltag -n $count $filename --yes
-        count=$((count + 1))
-    done
-
+  for filename in $dir/*.ogg ; do
+      echo "$this Artist = $artist"
+      echo "$this Album = $album"
+      echo "$this Track Number = $count"
+      lltag -a "$artist" -A "$album" -n $count "$filename" --yes
+      # lltag -n $count $filename --yes
+      count=$((count + 1))
+  done
 }
 
 # begin main
 
 if [ $# -eq 1 ] ;
 	then
-	if [ $1 = 'h' ] || [ $1 = 'help' ] ; then
+	if [ "$1" == 'h' ] || [ "$1" == 'help' ] ; then
 		echo_help
-	elif [ $1 = 'u' ] || [ $1 = 'update' ] ; then
+	elif [ "$1" == 'u' ] || [ "$1" == 'update' ] ; then
 		update_this
 	else
 	    echo_illegal	
 	fi	
 elif [ $# -eq 3 ] ; then
-    if [ $1 = 't' ] || [ $1 = 'tag' ] ; then
+    if [ "$1" == 't' ] || [ "$1" == 'tag' ] ; then
         artist="$2"
         album="$3"
         tag
     else
-	    download_vorbis "$url"
+	    bash "bash/ytdl_adapter.bash" "$url"
 	    tag
 	fi
 else

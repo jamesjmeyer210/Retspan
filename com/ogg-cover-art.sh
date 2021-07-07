@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ogg-conver-
 # Authors: acabal, detached

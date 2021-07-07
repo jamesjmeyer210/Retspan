@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 url_AlbumArt=$("youtube-dl --playlist-items 1 --get-thumbnail $url")
 $(wget $url_AlbumArt)

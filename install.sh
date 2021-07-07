@@ -1,4 +1,4 @@
-# install.sh - full installation of dependencies
+# install.bash - full installation of dependencies
 #
 # DEPRECIATED SCRIPT
 
